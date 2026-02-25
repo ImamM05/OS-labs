@@ -37,8 +37,10 @@ int main(int argc, char* argv[]) {
 
     // process bytes read from file
     for (unsigned int i = 0; i < byteRead; i++) {
-        if (isalnum(buf[i])) {
+        if (j < CHAR_LENGTH - 1 && isalnum(buf[i])) {
             token[j++] = buf[i];
+        } else if (j==CHAR_LENGTH -1) {
+            perror("Error token is longer than memory reserved for characters.")
         } else {
             if (j > 0) {
                 token[j] = '\0';
