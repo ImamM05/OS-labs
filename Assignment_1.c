@@ -5,6 +5,6 @@
 #define BUFFER_AMT 100
 
 int main(int argc, char* argv[]) {
-    unsigned int gFile = open(argv[1], O_RDONLY);
+    unsigned int fd = open(argv[1], O_RDONLY);
     
 }
