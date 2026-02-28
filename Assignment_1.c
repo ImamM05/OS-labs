@@ -6,11 +6,54 @@
 #include <stdio.h>
 #include <ctype.h>
 
-#define BUFFER_AMT 10000
+#define BUFFER_AMT 4
 #define CHAR_LENGTH 100
 
+struct DynamicArray {
+    char **list;
+    int size;
+    int capacity;
+};
+
+void da_init(struct DynamicArray *arr) {
+    arr->capacity = 5;
+    arr->list = malloc(arr->capacity*sizeof(char *));
+    arr->size = 0;
+}
+
+int da_resize(struct DynamicArray *arr) {
+    int newCap = arr->capacity*2;
+    char** newList = malloc((newCap)*sizeof(char *));
+    if (newList == NULL) {
+        return -1;
+    }
+    for (unsigned int i = 0; i < arr->size; i++) {
+        newList[i] = arr->list[i];
+    }
+    arr->capacity = newCap;
+    free(arr->list);
+    arr->list = newList;
+    return 0;
+}
+
+int da_insert_back(struct DynamicArray *arr, char* word) {
+    if (arr->size == arr->capacity) {
+        if (da_resize(arr) == -1) {
+            return -1;
+        }
+    }
+    arr->list[arr->size++] = word;
+    return 0;
+}
+
+void da_del(struct DynamicArray *arr){
+    free(arr->list);
+}
+
 int main(int argc, char* argv[]) {
-    if (argc < 3) {
+    char buf[BUFFER_AMT];
+
+    if (argc < 2) {
         printf("Error: Missing filepath and txt file, ex: %s <filepath> <filename>\n", argv[0]);
         return -1;
     }
@@ -20,40 +63,12 @@ int main(int argc, char* argv[]) {
         perror("Error opening file");
         return -1;
     }
-
-    char* buf = (char*)calloc(BUFFER_AMT, sizeof(char));
-    if (buf == NULL) {
-        perror("Memory allocation failed.");
+    ssize_t bytesRead = read(fd, buf, 4);
+    if (bytesRead == -1) {
+        perror("Error reading file %s", argv[1]);
         return -1;
     }
 
-    ssize_t byteRead = read(fd, buf, BUFFER_AMT);
-    if (byteRead == -1){
-        perror("Error reading file");
-        return -1;
-    }
-    char token[CHAR_LENGTH];
-    int j = 0;
-
-    // process bytes read from file
-    for (unsigned int i = 0; i < byteRead; i++) {
-        if (j < CHAR_LENGTH - 1 && isalnum(buf[i])) {
-            token[j++] = buf[i];
-        } else if (j==CHAR_LENGTH -1) {
-            perror("Error token is longer than memory reserved for characters.")
-        } else {
-            if (j > 0) {
-                token[j] = '\0';
-                printf("%s\n", token);
-                j = 0;
-            }
-        }
-    }
-    if (j > 0) {
-        token[j] = '\0';
-        printf("%s\n", token);
-        j = 0;
-    }
 
 
     free(buf);
