@@ -59,6 +59,7 @@ int main(int argc, char* argv[]) {
     }
 
     int fd = open(argv[1], O_RDONLY);
+
     if (fd == -1) {
         perror("Error opening file");
         return -1;
@@ -76,4 +77,8 @@ int main(int argc, char* argv[]) {
     close(fd);
     return 0;
     
+}
+
+void addToList(const char** const list, const char* extension) {
+
 }
