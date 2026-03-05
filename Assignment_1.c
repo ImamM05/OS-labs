@@ -9,46 +9,12 @@
 #define BUFFER_AMT 4
 #define CHAR_LENGTH 100
 
-struct DynamicArray {
-    char **list;
-    int size;
-    int capacity;
-};
-
-void da_init(struct DynamicArray *arr) {
-    arr->capacity = 5;
-    arr->list = malloc(arr->capacity*sizeof(char *));
-    arr->size = 0;
+struct Node {
+    char* data;
+    struct Node *next;
+    struct Node *prev;
 }
 
-int da_resize(struct DynamicArray *arr) {
-    int newCap = arr->capacity*2;
-    char** newList = malloc((newCap)*sizeof(char *));
-    if (newList == NULL) {
-        return -1;
-    }
-    for (unsigned int i = 0; i < arr->size; i++) {
-        newList[i] = arr->list[i];
-    }
-    arr->capacity = newCap;
-    free(arr->list);
-    arr->list = newList;
-    return 0;
-}
-
-int da_insert_back(struct DynamicArray *arr, char* word) {
-    if (arr->size == arr->capacity) {
-        if (da_resize(arr) == -1) {
-            return -1;
-        }
-    }
-    arr->list[arr->size++] = word;
-    return 0;
-}
-
-void da_del(struct DynamicArray *arr){
-    free(arr->list);
-}
 
 int main(int argc, char* argv[]) {
     if (argc < 2) {
