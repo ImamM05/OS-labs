@@ -58,7 +58,7 @@ void organize(char *directory) {
     DIR *dir = opendir(directory);
 
     if (!dir) {
-        perror("opendir");
+        perror("error opening directory");
         exit(1);
     }
 
@@ -74,13 +74,14 @@ void organize(char *directory) {
         if (dot == NULL)
             continue;
 
-        char *ext = dot + 1;
+        char *ext = dot;
+        char *extOnly = dot+1;
 
         if (excluded(ext))
             continue;
 
         char folder[500];
-        sprintf(folder, "%s/%s", directory, ext);
+        sprintf(folder, "%s/%s", directory, extOnly);
 
         mkdir(folder, 0755);
 
@@ -88,7 +89,7 @@ void organize(char *directory) {
         char newPath[500];
 
         sprintf(oldPath, "%s/%s", directory, entry->d_name);
-        sprintf(newPath, "%s/%s/%s", directory, ext, entry->d_name);
+        sprintf(newPath, "%s/%s/%s", directory, extOnly, entry->d_name);
 
         rename(oldPath, newPath);
     }
