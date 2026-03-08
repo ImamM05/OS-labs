@@ -14,15 +14,16 @@ int search(char* file, char* dir){
         if (strlen(entry->d_name) == strlen(file) &&
             strcmp(entry->d_name, file) == 0)
         {
+            // success
             closedir(dirptr);
-            return 0;   /* success */
+            return 0;   
         }
 
         entry = readdir(dirptr);
     }
 
     closedir(dirptr);
-    return 1;   /* failure */
+    return -1;   
 }
 
 int main(int argc, char *argv[]) {
