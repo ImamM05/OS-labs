@@ -1,3 +1,5 @@
+//Imam Mishkat
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -51,8 +53,6 @@ void loadFile(char *filename) {
     close(fd);
 }
 
-
-/* organize files */
 void organize(char *directory) {
 
     DIR *dir = opendir(directory);
