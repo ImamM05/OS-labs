@@ -13,7 +13,6 @@ struct node {
 
 struct node *head = NULL;
 
-/* Insert at End */
 void insertAtEnd(int data) {
     struct node *newNode = malloc(sizeof(struct node));
     newNode->data = data;
@@ -34,7 +33,6 @@ void insertAtEnd(int data) {
     newNode->prev = temp;
 }
 
-/* Insert After */
 void insertAfter(int data, int previous) {
     struct node *current = head;
 
@@ -60,7 +58,6 @@ void insertAfter(int data, int previous) {
     current->next = newNode;
 }
 
-/* Delete by Value */
 void deleteByValue(int data) {
     struct node *current = head;
 
@@ -86,7 +83,6 @@ void deleteByValue(int data) {
     free(current);
 }
 
-/* Print Forward */
 void printForward() {
     struct node *temp = head;
     while (temp != NULL) {
@@ -96,7 +92,6 @@ void printForward() {
     printf("\n");
 }
 
-/* Print Reverse */
 void printReverse() {
     struct node *temp = head;
 
@@ -113,7 +108,7 @@ void printReverse() {
     printf("\n");
 }
 
-/* Build list using read() */
+// Build list 
 void buildListFromFile(char *filename) {
     int fd = open(filename, O_RDONLY);
     if (fd < 0) {
@@ -140,7 +135,6 @@ void buildListFromFile(char *filename) {
     }
 }
 
-/* Main */
 int main(int argc, char *argv[]) {
     if (argc < 2) {
         printf("Usage: %s <inputfile>\n", argv[0]);
